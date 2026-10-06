@@ -1,1 +1,43 @@
-<p>register works!</p>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow bg-primary text-white">
+                <div class="card-body p-5">
+                    <h1 class="card-title text-center mb-5">Registro</h1>
+
+                    <form [formGroup]="registerForm" (ngSubmit)="register()">
+                        
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="nombre" required placeholder="nombre" formControlName="nombre">
+                            <div class="invalid-feedback">Por favor ingrese su nombre</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="email" class="form-control" id="email" required placeholder="email" formControlName="email">
+                            <div class="invalid-feedback">Por favor ingrese un email válido</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="password" required placeholder="password" formControlName="password">
+                            <div class="invalid-feedback">Porfavor ingrese una password</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <select class="form-select" id="role" required formControlName="role">
+                                <option value="" disabled selected>Seleccione un rol</option>
+                                <option value="admin">Administrador</option>
+                                <option value="auxiliar">Auxiliar</option>
+                                <option value="conductor">Conductor</option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-5">
+                            <button type="submit" class="btn btn-warning text-white">Registrarse</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
