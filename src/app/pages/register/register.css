@@ -1,0 +1,7 @@
+.content{
+    height: calc(100vh - 58px);
+}
+
+.ant > img{
+    height: calc(100vh - 58px);
+}
