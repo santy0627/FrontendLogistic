@@ -3,7 +3,10 @@
         <div class="col-md-6 bg-primary d-flex align-items-center justify-content-center">
             <div class="card shadow">
                 <div class="card-body p-5">
-                    <h1 class="card-title text-center mb-5">Registro</h1>
+                    <div class="card-title text-center mb-5">
+                        <h1>REGISTRATE</h1>
+                        <p>Completa algunos datos y crea tu usuario</p>
+                    </div>
 
                     <div class="alert alert-danger" *ngIf="error">
                         {{ error }}
@@ -45,7 +48,7 @@
                         </div>
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-5">
-                            <button type="submit" class="btn btn-warning text-white">Registrarse</button>
+                            <button type="submit" class="btn btn-warning text-white btn-form">Registrarse</button>
                         </div>
 
                     </form>
@@ -53,7 +56,7 @@
             </div>
         </div>
 
-        <div class="ant col-md-6 justify-content-center">
+        <div class="ant col-md-6 d-md-flex justify-content-center align-items-end">
             <img src="hormiga.svg" alt="hormiga">
         </div>
     </div>

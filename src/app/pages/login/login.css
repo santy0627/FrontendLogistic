@@ -1,0 +1,17 @@
+.content{
+    height: calc(100vh - 56px);
+}
+
+.ant > img{
+    height: 80vh;
+}
+
+.btn-form:hover{
+    transform: scale(1.05);
+}
+
+@media screen and (max-width : 1150px) {
+    .ant {
+        display: none;
+    }
+}
