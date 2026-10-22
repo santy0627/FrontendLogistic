@@ -1,0 +1,30 @@
+<div class="container pt-5 content overflow-y-scroll">
+    <div class="row">
+
+        <div class="alert alert-danger" *ngIf="remesas.length === 0">
+            No hay remesas registradas
+        </div>
+
+        <div class="col-sm-12 col-md-3 mb-3" *ngFor="let remesa of remesas">
+            <div class="card shadow-sm h-100 px-4 py-2" style="cursor: pointer;">
+                <div class="card-body row gap-5">
+                    <h4 class="card-title col-12">
+                        REMESA #{{ remesa.codigo }}
+                    </h4>
+                    <div class="card-text row">
+                        <p class="col-6"><span class="fw-bold">Cantidad:  </span> {{ remesa.cantidad }} und.</p>
+                        <p class="col-6"><span class="fw-bold">Ciudad:  </span> {{ remesa.ciudadEntrega }}</p>
+                        <p class="col-6"><span class="fw-bold">Peso total:  </span> {{ remesa.pesoTotal }} kg</p>
+                        <p class="col-6"><span class="fw-bold">Direccion:  </span> {{ remesa.direccionEntrega }}</p>
+                    </div>
+
+                    <div class="rounded bg-primary col-6 p-2 text-white">
+                        <span>{{ remesa.estado }}</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

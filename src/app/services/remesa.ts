@@ -7,14 +7,14 @@ import { Remesa } from '../interfaces/remesa';
     providedIn: 'root',
 })
 
-export class Remesas {
+export class RemesaService {
     private http = inject(HttpClient);
 
     private getHeaders(): HttpHeaders {
-        const token = localStorage.getItem('token')
+        const token = sessionStorage.getItem('token')
 
         return new HttpHeaders({
-            Autorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`
         })
     }
 

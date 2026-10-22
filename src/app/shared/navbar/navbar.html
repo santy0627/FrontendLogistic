@@ -5,10 +5,35 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav ms-auto">
-        <a class="nav-link" routerLink="/register">Registrarse</a>
-        <a class="nav-link" routerLink="/login">Iniciar sesión</a>
-      </div>
+      
+      <ng-container *ngIf="isAuthenticated"> 
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/remesas">Remesas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/camiones">Camiones</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/rutas">Rutas</a>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" (click)="logout()">Cerrar sesión</button>
+            </li>
+          </ul>
+      </ng-container>
+      
+      <ng-container *ngIf="!isAuthenticated"> 
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/register">Registrarse</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/login">Iniciar sesión</a>
+            </li>
+          </ul>
+      </ng-container>
+      
     </div>
   </div>
 </nav>

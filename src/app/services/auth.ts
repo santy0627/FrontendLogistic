@@ -32,4 +32,8 @@ export class Auth {
     }
 
   }
+
+  logout(): void {
+    sessionStorage.removeItem('token');
+  }
 }

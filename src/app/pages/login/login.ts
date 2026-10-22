@@ -45,7 +45,7 @@ export class Login {
           confirmButtonColor: '#3085d6'
         }).then(() => {
           this.authService.saveToken(res.token);
-          this.router.navigate(['/main'])
+          this.router.navigate(['/remesas'])
         })
       },
       error: (error) => {
