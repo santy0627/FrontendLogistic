@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class Register {
   private fb = inject(FormBuilder);
-  private auth = inject(Auth);
+  private authService = inject(Auth);
   private router = inject(Router);
 
   loading: boolean = false;
@@ -33,7 +33,7 @@ export class Register {
     this.loading = true;
     this.error = '';
 
-    this.auth.register(this.registerForm.value as any).subscribe({
+    this.authService.register(this.registerForm.value as any).subscribe({
       next: (res) => { 
         this.loading = false;
 

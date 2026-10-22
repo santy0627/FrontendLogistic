@@ -17,4 +17,19 @@ export class Auth {
   login(credentials: Pick<User, 'email' | 'password'>): Observable<any> {
     return this.http.post('http://localhost:3000/api/auth/login', credentials)
   }
+
+  saveToken(token : string) {
+    sessionStorage.setItem('token', token);
+  }
+
+  isAuthenticated(): boolean {
+    const token = sessionStorage.getItem('token');
+
+    if(token){
+      return true;
+    } else {
+      return false;
+    }
+
+  }
 }

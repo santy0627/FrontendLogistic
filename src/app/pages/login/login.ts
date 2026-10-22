@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class Login {
   private fb = inject(FormBuilder);
-  private auth = inject(Auth);
+  private authService = inject(Auth);
   private router = inject(Router);
 
   loading: boolean = false;
@@ -32,7 +32,7 @@ export class Login {
     this.loading = true;
     this.error = '';
 
-    this.auth.login(this.loginForm.value as any).subscribe({
+    this.authService.login(this.loginForm.value as any).subscribe({
       next: (res) => {
         console.log(res)
         this.loading = false;
@@ -44,6 +44,7 @@ export class Login {
           confirmButtonText: 'Entrar al sistema',
           confirmButtonColor: '#3085d6'
         }).then(() => {
+          this.authService.saveToken(res.token);
           this.router.navigate(['/main'])
         })
       },
