@@ -33,8 +33,9 @@ export class Login {
     this.error = '';
 
     this.authService.login(this.loginForm.value as any).subscribe({
-      next: (res) => {
+      next: (res) => {  
         this.loading = false;
+        console.log(res)
         
         Swal.fire({
           icon: 'success',
@@ -43,7 +44,7 @@ export class Login {
           confirmButtonText: 'Entrar al sistema',
           confirmButtonColor: '#3085d6'
         }).then(() => {
-          this.authService.saveToken(res.token);
+          this.authService.saveTokenAndRole(res.token, res.roleUser);
           this.router.navigate(['/remesas'])
         })
       },

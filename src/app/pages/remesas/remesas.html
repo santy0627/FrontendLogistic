@@ -1,8 +1,10 @@
-<div class="container-fluid d-flex pt-5 px-0 content overflow-y-scroll">
+<div class="container d-flex pt-5 px-0 content overflow-y-scroll overflow-x-hidden">
 
     <div class="row">
+        
+        <!-- FORMULARIO PARA AGREGAR REMESA -->
 
-        <div class="row col-lg-12 col-xl-4 ps-5 align-items-start justify-content-center">
+        <div class="row col-lg-12 col-xl-4 mb-5" *ngIf="roleUser === 'admin'">
             <div class="col-sm-12 col-md-8 w-100">
                 <div class="card shadow-sm px-4 py-2">
 
@@ -69,14 +71,16 @@
             </div>
         </div>
 
-        <div class="row col-lg-12 col-xl-8 justify-content-center">
+        <!-- CARDS CUANDO ES ADMIN -->
+
+        <div class="row col-lg-12 col-xl-8 justify-content-center" *ngIf="roleUser === 'admin'">
 
             <div class="alert alert-danger" *ngIf="remesas.length === 0">
                 No hay remesas registradas
             </div>
 
             <div class="col-sm-12 col-md-5 mb-3" *ngFor="let remesa of remesas">
-                <div class="card shadow-sm h-100 px-4 py-2">
+                <div class="card shadow-sm px-4 py-2">
 
                     <div class="card-body d-flex flex-column justify-content-between gap-5">
                         <div class="row align-items-center">
@@ -112,23 +116,90 @@
 
                         </div>
 
-                        <div class="rounded bg-success col-12 p-2 text-white" *ngIf="remesa.estado === 'entregado'">
+                        <div class="badge text-bg-success col-12 fs-5" *ngIf="remesa.estado === 'entregado'">
                             <span>Entregado</span>
                         </div>
 
-                        <div class="rounded bg-primary col-12 p-2 text-white" *ngIf="remesa.estado === 'enBodega'">
+                        <div class="badge text-bg-primary col-12 fs-5" *ngIf="remesa.estado === 'enBodega'">
                             <span>En bodega</span>
                         </div>
 
-                        <div class="rounded bg-warning col-12 p-2 text-white" *ngIf="remesa.estado === 'enTransito'">
+                        <div class="badge text-bg-warning col-12 fs-5" *ngIf="remesa.estado === 'enTransito'">
                             <span>En transito</span>
                         </div>
 
-                        <div class="rounded bg-accent col-12 p-2 text-white" *ngIf="remesa.estado === 'cargada'">
+                        <div class="badge text-bg-accent col-12 fs-5" *ngIf="remesa.estado === 'cargada'">
                             <span>Cargada</span>
                         </div>
 
-                        <div class="rounded bg-info col-12 p-2 text-white" *ngIf="remesa.estado === 'asignada'">
+                        <div class="badge text-bg-info col-12 fs-5" *ngIf="remesa.estado === 'asignada'">
+                            <span>Asignada</span>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CARDS CUANDO NO ES ADMIN -->
+
+        <div class="row col-12 justify-content-center" *ngIf="roleUser != 'admin'">
+
+            <div class="alert alert-danger" *ngIf="remesas.length === 0">
+                No hay remesas registradas
+            </div>
+
+            <div class="col-sm-12 col-md-5 col-lg-4 mb-3" *ngFor="let remesa of remesas">
+                <div class="card shadow-sm px-4 py-2">
+
+                    <div class="card-body d-flex flex-column justify-content-between gap-5">
+                        <div class="row align-items-center">
+                            <h4 class="card-title col-12 fw-bold mb-0">REMESA #{{ remesa.codigo }}</h4>
+                        </div>
+
+                        <div class="card-text row">
+                            <div class="col-6">
+                                <span class="fw-bold">Cantidad:</span>
+                                <p>{{ remesa.cantidad }} und.</p>
+                            </div>
+                            <div class="col-6">
+                                <span class="fw-bold">Ciudad:</span>
+                                <p>{{ remesa.ciudadEntrega }}</p>
+                            </div>
+                            <div class="col-6">
+                                <span class="fw-bold">Peso total:</span>
+                                <p>{{ remesa.pesoTotal }} kg</p>
+                            </div>
+                            <div class="col-6">
+                                <span class="fw-bold">Direccion de entrega:</span>
+                                <p>{{ remesa.direccionEntrega }}</p>
+                            </div>
+                            <div class="col-6">
+                                <span class="fw-bold">Tipo de mercancia:</span>
+                                <p>{{ remesa.tipoMercancia }}</p>
+                            </div>
+
+                        </div>
+
+                        <div class="badge text-bg-success col-12 fs-5" *ngIf="remesa.estado === 'entregado'">
+                            <span>Entregado</span>
+                        </div>
+
+                        <div class="badge text-bg-primary col-12 fs-5" *ngIf="remesa.estado === 'enBodega'">
+                            <span>En bodega</span>
+                        </div>
+
+                        <div class="badge text-bg-warning col-12 fs-5" *ngIf="remesa.estado === 'enTransito'">
+                            <span>En transito</span>
+                        </div>
+
+                        <div class="badge text-bg-accent col-12 fs-5" *ngIf="remesa.estado === 'cargada'">
+                            <span>Cargada</span>
+                        </div>
+
+                        <div class="badge text-bg-info col-12 fs-5" *ngIf="remesa.estado === 'asignada'">
                             <span>Asignada</span>
                         </div>
 

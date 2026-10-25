@@ -18,8 +18,9 @@ export class Auth {
     return this.http.post('http://localhost:3000/api/auth/login', credentials)
   }
 
-  saveToken(token : string) {
+  saveTokenAndRole(token : string, roleUser: string) {
     sessionStorage.setItem('token', token);
+    sessionStorage.setItem('roleUser', roleUser);
   }
 
   isAuthenticated(): boolean {
@@ -35,5 +36,6 @@ export class Auth {
 
   logout(): void {
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('roleUser');
   }
 }

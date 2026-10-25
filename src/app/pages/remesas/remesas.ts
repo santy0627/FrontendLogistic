@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RemesaService } from '../../services/remesa';
 import { Remesa } from '../../interfaces/remesa';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, Validator, FormBuilder, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -18,6 +18,8 @@ export class Remesas implements OnInit{
   private fb = inject(FormBuilder)
 
   remesas: Remesa[] = [];
+  error: string = ''
+  roleUser: string | null = sessionStorage.getItem('roleUser')
 
   remesaForm = this.fb.group({
     codigo: ['', Validators.required],
@@ -64,7 +66,6 @@ export class Remesas implements OnInit{
 
     this.remesaService.createRemesa(this.remesaForm.value as any).subscribe({
       next: (res) =>{
-        this.remesas.unshift(res)
 
         Swal.fire({
           icon: 'success',
@@ -73,9 +74,33 @@ export class Remesas implements OnInit{
           confirmButtonText: 'Entendido',
           confirmButtonColor: '#3085d6'
         })
+
+        this.getAllRemesas()
+        this.remesaForm.reset()
       },
       error: (error) => {
-        console.error(error)
+
+        if(error.error?.errors) {
+          error.error.errors.forEach((e: any) => {
+            const control = this.remesaForm.get(e.path);
+            if(control) {
+              control.setErrors({ serverError: e.msg });
+              control.markAsTouched();
+            }
+          });
+          return
+        }
+
+        this.error = error.error?.msg || 'Error al registrar';
+        
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al crear la remesa',
+          text: this.error,
+          confirmButtonText: 'Entendido',
+          confirmButtonColor: '#d63030'
+        })
+
       }
     })
   }
@@ -102,17 +127,33 @@ export class Remesas implements OnInit{
               confirmButtonText: 'Entendido',
               confirmButtonColor: '#3085d6'
             })
+
+            this.getAllRemesas()
           },
           error: (error) => {
-            console.error(error)
+
+            if(error.error?.errors) {
+              error.error.errors.forEach((e: any) => {
+                const control = this.remesaForm.get(e.path);
+                if(control) {
+                  control.setErrors({ serverError: e.msg });
+                  control.markAsTouched();
+                }
+              });
+              return
+            }
+
+            this.error = error.error?.msg || 'Error al registrar';
+            
+            Swal.fire({
+              icon: 'error',
+              title: 'Error al eliminar la remesa',
+              text: this.error,
+              confirmButtonText: 'Entendido',
+              confirmButtonColor: '#d63030'
+            })
           }
         })
-
-        Swal.fire({
-        title: "Tarea eliminada!",
-        text: "La tarea fue eliminada exitosamente",
-        icon: "success"
-      })
     }
     });
 
