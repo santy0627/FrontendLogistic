@@ -1,5 +1,5 @@
 export interface Remesa {
-    id?: number;
+    _id?: string;
     codigo: number;
     cantidad: number;
     pesoTotal: number;

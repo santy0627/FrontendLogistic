@@ -34,7 +34,6 @@ export class Login {
 
     this.authService.login(this.loginForm.value as any).subscribe({
       next: (res) => {
-        console.log(res)
         this.loading = false;
         
         Swal.fire({
