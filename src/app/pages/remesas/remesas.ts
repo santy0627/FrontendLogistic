@@ -91,7 +91,7 @@ export class Remesas implements OnInit{
           return
         }
 
-        this.error = error.error?.msg || 'Error al registrar';
+        this.error = error.error?.msg || 'Error al crear';
         
         Swal.fire({
           icon: 'error',
@@ -143,7 +143,7 @@ export class Remesas implements OnInit{
               return
             }
 
-            this.error = error.error?.msg || 'Error al registrar';
+            this.error = error.error?.msg || 'Error al eliminar';
             
             Swal.fire({
               icon: 'error',

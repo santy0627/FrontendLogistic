@@ -35,7 +35,6 @@ export class Login {
     this.authService.login(this.loginForm.value as any).subscribe({
       next: (res) => {  
         this.loading = false;
-        console.log(res)
         
         Swal.fire({
           icon: 'success',

@@ -1,1 +1,133 @@
-<p>camiones works!</p>
+<div class="container d-flex pt-5 px-0 content overflow-y-scroll overflow-x-hidden">
+
+    <div class="row">
+
+        <!-- FORMULARIO PARA AGREGAR CAMION -->
+
+        <div class="row col-lg-12 col-xl-4 mb-5" *ngIf="roleUser === 'admin'">
+            <div class="col-sm-12 col-md-8 w-100">
+                <div class="card shadow-sm px-4 py-2">
+
+                    <form class="card-body row gap-5" [formGroup]="camionForm" (ngSubmit)="createCamion()">
+
+                        <div class="card-title">
+                            <label for="placa" class="fs-4 fw-bold">PLACA</label>
+                            <input class="form-control" type="text" placeholder="Placa del vehiculo" name="placa" formControlName="placa">
+                            <small class="text-danger" *ngIf="camionForm.get('placa')?.touched && camionForm.get('placa')?.invalid">
+                                La placa es obligatoria y debe tener 6 caracteres
+                            </small>
+                        </div>
+
+                        <div class="card-text">
+                            <label for="capacidadCarga" class="fw-bold">Capacidad de carga:</label>
+                            <input class="form-control" type="number" placeholder="Capacidad de carga" name="capacidadCarga" formControlName="capacidadCarga">
+                            <small class="text-danger" *ngIf="camionForm.get('capacidadCarga')?.touched && camionForm.get('capacidadCarga')?.invalid">
+                                La capacidad de carga es obligatoria
+                            </small>
+                        </div>
+
+                        <div class="rounded bg-danger col-12 p-2 text-white">
+                            <button type="submit" class="btn btn-transparent text-white p-0 w-100">Crear camión</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARDS CUANDO ES ADMIN -->
+        
+        <div class="row col-lg-12 col-xl-8 justify-content-center" *ngIf="roleUser === 'admin'">
+
+            <div class="alert alert-danger" *ngIf="camiones.length === 0">
+                No hay camiones registrados
+            </div>
+
+            <div class="col-sm-12 col-md-12 mb-3" *ngFor="let camion of camiones">
+                <div class="card shadow-sm px-4 py-2">
+
+                    <div class="card-body d-flex flex-column justify-content-between gap-5">
+                        <div class="row align-items-center">
+                            <h4 class="card-title col-10 mb-0"><span class="fw-bold">PLACA</span> {{ camion.placa }}</h4>
+                            <button class="col-2 btn btn-transparent p-0" (click)="deleteCamion(camion._id)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="lightgray" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="card-text row">
+                            <div class="col-6">
+                                <span class="fw-bold">Capacidad de carga:</span>
+                                <p>{{ camion.capacidadCarga }} kg</p>
+                            </div>
+                            <div class="col-6">
+                                <span class="fw-bold">Ubicacion actual:</span>
+                                <p *ngIf="camion.ubicacionActual === 'bodega'">En bodega</p>
+                                <p *ngIf="camion.ubicacionActual === 'enRuta'">En ruta</p>
+                            </div>
+
+                        </div>
+
+                        <div class="badge text-bg-success col-12 fs-5" *ngIf="camion.disponible === true">
+                            <span>Disponible</span>
+                        </div>
+
+                        <div class="badge text-bg-danger col-12 fs-5" *ngIf="camion.disponible === false">
+                            <span>No disponible</span>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CARDS CUANDO NO ES ADMIN -->
+
+        <div class="row col-12 justify-content-center" *ngIf="roleUser != 'admin'">
+
+            <div class="alert alert-danger" *ngIf="camiones.length === 0">
+                No hay camiones registrados
+            </div>
+
+            <div class="col-sm-12 col-md-6 mb-3" *ngFor="let camion of camiones">
+                <div class="card shadow-sm px-4 py-2">
+
+                    <div class="card-body d-flex flex-column justify-content-between gap-5">
+                        <div class="row align-items-center">
+                            <h4 class="card-title col-10 mb-0"><span class="fw-bold">PLACA</span> {{ camion.placa }}</h4>
+                        </div>
+
+                        <div class="card-text row">
+                            <div class="col-6">
+                                <span class="fw-bold">Capacidad de carga:</span>
+                                <p>{{ camion.capacidadCarga }} kg</p>
+                            </div>
+                            <div class="col-6">
+                                <span class="fw-bold">Ubicacion actual:</span>
+                                <p *ngIf="camion.ubicacionActual === 'bodega'">En bodega</p>
+                                <p *ngIf="camion.ubicacionActual === 'enRuta'">En ruta</p>
+                            </div>
+
+                        </div>
+
+                        <div class="badge text-bg-success col-12 fs-5" *ngIf="camion.disponible === true">
+                            <span>Disponible</span>
+                        </div>
+
+                        <div class="badge text-bg-danger col-12 fs-5" *ngIf="camion.disponible === false">
+                            <span>No disponible</span>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
