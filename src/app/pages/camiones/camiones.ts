@@ -4,6 +4,8 @@ import { Camion } from '../../interfaces/camion';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { Auth } from '../../services/auth';
+import { User } from '../../interfaces/user';
 
 @Component({
   selector: 'app-camiones',
@@ -14,9 +16,11 @@ import Swal from 'sweetalert2';
 export class Camiones implements OnInit {
 
   private camionService = inject(CamionService);
-  private fb = inject(FormBuilder)
+  private fb = inject(FormBuilder);
+  private authService = inject(Auth);
 
   camiones: Camion[] = [];
+  users: User[] = [];
   error: string = ''
   roleUser: string | null = sessionStorage.getItem('roleUser')
 
@@ -24,11 +28,26 @@ export class Camiones implements OnInit {
     placa: ['', Validators.required],
     capacidadCarga: ['', Validators.required],
     disponible: [''],
-    ubicacionActual: ['']
+    ubicacionActual: [''],
+    remesasAsignadas: [''],
+    conductorAsignado: ['']
   })
 
   ngOnInit(): void {
     this.getAllCamiones()
+    this.getConductores()
+  }
+
+  getConductores(): void {
+    this.authService.getUsersByRole('conductor').subscribe({
+      next: (res) => {
+        this.users = res
+        console.log(res)
+      },
+      error: (error) => {
+        console.log(error)
+      }
+    })
   }
 
   getAllCamiones(): void {

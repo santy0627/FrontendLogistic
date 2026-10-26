@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../interfaces/user';
 
@@ -9,6 +9,14 @@ import { User } from '../interfaces/user';
 
 export class Auth {
   private http = inject(HttpClient); //POST GET PUT y demas consultas HTTP
+
+  private getHeaders(): HttpHeaders {
+    const token = sessionStorage.getItem('token')
+
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    })
+  }
 
   register(user: User) : Observable<any> {
     return this.http.post('http://localhost:3000/api/auth/register', user)
@@ -37,5 +45,9 @@ export class Auth {
   logout(): void {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('roleUser');
+  }
+
+  getUsersByRole(role: string): Observable<User[]> {
+    return this.http.get<User[]>(`http://localhost:3000/api/auth/users/${role}`, { headers: this.getHeaders() })
   }
 }

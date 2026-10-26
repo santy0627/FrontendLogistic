@@ -24,6 +24,12 @@
                             <small class="text-danger" *ngIf="camionForm.get('capacidadCarga')?.touched && camionForm.get('capacidadCarga')?.invalid">
                                 La capacidad de carga es obligatoria
                             </small>
+
+                            <label for="conductorAsignado" class="fw-bold">Conductor a cargo:</label>
+                            <select class="form-select" name="conductorAsignado" formControlName="conductorAsignado">
+                                <option value="" disabled selected>Conductor a cargo</option>
+                                <option [value]="user._id" *ngFor="let user of users">{{ user.nombre }}</option>
+                            </select>
                         </div>
 
                         <div class="rounded bg-danger col-12 p-2 text-white">
@@ -67,14 +73,28 @@
                                 <p *ngIf="camion.ubicacionActual === 'enRuta'">En ruta</p>
                             </div>
 
+                            <div class="col-6">
+                                <span class="fw-bold">Conductor asignado:</span>
+                                <p *ngIf="camion.conductorAsignado && typeof camion.conductorAsignado === 'object'">
+                                    {{ camion.conductorAsignado.nombre }}
+                                </p>
+                                <p *ngIf="!camion.conductorAsignado">Sin conductor asignado</p>
+                            </div>
+
                         </div>
 
-                        <div class="badge text-bg-success col-12 fs-5" *ngIf="camion.disponible === true">
-                            <span>Disponible</span>
-                        </div>
+                        <div class="row w-100 justify-content-between">
+                            <div class="badge text-bg-success col-5 fs-5" *ngIf="camion.disponible === true">
+                                <span>Disponible</span>
+                            </div>
 
-                        <div class="badge text-bg-danger col-12 fs-5" *ngIf="camion.disponible === false">
-                            <span>No disponible</span>
+                            <div class="badge text-bg-danger col-5 fs-5" *ngIf="camion.disponible === false">
+                                <span>No disponible</span>
+                            </div>
+
+                            <button class="badge btn text-bg-warning col-5 fs-5" style="cursor: pointer;">
+                                Asignar remesas
+                            </button>
                         </div>
 
                     </div>
