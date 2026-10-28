@@ -125,28 +125,28 @@
                                 *ngIf="camion.remesasAsignadas?.length != 0" 
                                 style="cursor: pointer;" 
                                 data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">
+                                [attr.data-bs-target]="'#modal-' + camion._id">
                                 Ver remesas
                             </button>
 
                             <!-- ######## MODAL DE REMESAS ASIGNADAS ######## -->
 
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
+                            <div class="modal fade" [id]="'modal-' + camion._id" tabindex="-1" [attr.aria-labelledby]="'label-' + camion._id" aria-hidden="true"> 
                                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                                     <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Remesas asignadas</h1>
+                                        <h1 class="modal-title fs-5 text-primary fw-bold" id="exampleModalLabel">REMESAS ASIGNADAS</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
 
-                                                <div class="row col-lg-12 col-xl-8 justify-content-center" *ngIf="roleUser === 'admin'">
+                                            <div class="row justify-content-center" *ngIf="roleUser === 'admin'">
                                                 <div class="col-12 mb-3" *ngFor="let remesa of camion.remesasAsignadas">
                                                     <div class="card shadow-sm px-4 py-2 h-100">
 
                                                         <div class="card-body d-flex flex-column justify-content-between gap-5">
                                                             <div class="row align-items-center">
-                                                                <h4 class="card-title col-10 fw-bold mb-0">REMESA #{{ remesa.remesasAsignadas.codigo }}</h4>
+                                                                <h4 class="card-title col-10 fw-bold mb-0 text-primary">REMESA #{{ remesa.codigo }}</h4>
                                                             </div>
 
                                                             <div class="card-text row">
@@ -182,7 +182,7 @@
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</button>
                                     </div>
                                     </div>
                                 </div>
