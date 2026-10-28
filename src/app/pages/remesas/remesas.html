@@ -28,7 +28,10 @@
                             </div>
                             <div class="col-6">
                                 <label for="ciudad" class="fw-bold">Ciudad:</label>
-                                <input class="form-control" type="text" placeholder="Ciudad" name="ciudad" formControlName="ciudadEntrega">
+                                <select class="form-select" name="ciudad" formControlName="ciudadEntrega">
+                                    <option value="" disabled selected>Ciudad de entrega</option>
+                                    <option *ngFor="let ciudad of ciudades" [value]="ciudad">{{ ciudad }}</option>
+                                </select>
                                 <small class="text-danger" *ngIf="remesaForm.get('ciudadEntrega')?.touched && remesaForm.get('ciudadEntrega')?.invalid">
                                     La ciudad de entrega es obligatoria
                                 </small>

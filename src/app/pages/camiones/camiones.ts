@@ -6,6 +6,7 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Auth } from '../../services/auth';
 import { User } from '../../interfaces/user';
+import { ciudades } from '../../constants/ciudades';
 
 @Component({
   selector: 'app-camiones',
@@ -13,6 +14,7 @@ import { User } from '../../interfaces/user';
   templateUrl: './camiones.html',
   styleUrl: './camiones.css',
 })
+
 export class Camiones implements OnInit {
 
   private camionService = inject(CamionService);
@@ -23,6 +25,7 @@ export class Camiones implements OnInit {
   users: User[] = [];
   error: string = ''
   roleUser: string | null = sessionStorage.getItem('roleUser')
+  ciudades = ciudades
 
   camionForm = this.fb.group({
     placa: ['', Validators.required],
@@ -30,7 +33,8 @@ export class Camiones implements OnInit {
     disponible: [''],
     ubicacionActual: [''],
     remesasAsignadas: [''],
-    conductorAsignado: ['']
+    conductorAsignado: [''],
+    ciudadOperacion: ['', Validators.required]
   })
 
   ngOnInit(): void {
@@ -42,7 +46,6 @@ export class Camiones implements OnInit {
     this.authService.getUsersByRole('conductor').subscribe({
       next: (res) => {
         this.users = res
-        console.log(res)
       },
       error: (error) => {
         console.log(error)
@@ -53,6 +56,7 @@ export class Camiones implements OnInit {
   getAllCamiones(): void {
     this.camionService.getAllCamiones().subscribe({
       next: (res) => {
+        console.log(res)
         this.camiones = res
       },
       error: (error) => {
@@ -161,6 +165,45 @@ export class Camiones implements OnInit {
     }
     });
 
+  }
+
+  asignarRemesas(id: string | undefined): void {
+    this.camionService.asignarRemesas(id).subscribe({
+      next: (res) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Remesas asignadas',
+          text: 'Se asignaron las remesas correctamente',
+          confirmButtonText: 'Entendido',
+          confirmButtonColor: '#3085d6'
+        })
+
+        this.getAllCamiones()
+      },
+      error: (error) => {
+
+        if(error.error?.errors) {
+          error.error.errors.forEach((e: any) => {
+            const control = this.camionForm.get(e.path);
+            if(control) {
+              control.setErrors({ serverError: e.msg });
+              control.markAsTouched();
+            }
+          });
+          return
+        }
+
+        this.error = error.error?.msg || 'Error al asignar';
+            
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al asignar las remesas',
+          text: this.error,
+          confirmButtonText: 'Entendido',
+          confirmButtonColor: '#d63030'
+        })
+      }
+    })
   }
 
 }

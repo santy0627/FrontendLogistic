@@ -4,6 +4,7 @@ import { Remesa } from '../../interfaces/remesa';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { ciudades } from '../../constants/ciudades';
 
 @Component({
   selector: 'app-remesas',
@@ -20,6 +21,7 @@ export class Remesas implements OnInit{
   remesas: Remesa[] = [];
   error: string = ''
   roleUser: string | null = sessionStorage.getItem('roleUser')
+  ciudades = ciudades
 
   remesaForm = this.fb.group({
     codigo: ['', Validators.required],

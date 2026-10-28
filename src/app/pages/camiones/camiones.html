@@ -1,8 +1,8 @@
-<div class="container d-flex pt-5 px-0 content overflow-y-scroll overflow-x-hidden">
+<div class="container d-flex pt-5 px-0 overflow-x-hidden">
 
-    <div class="row">
+    <div class="row justify-content-center">
 
-        <!-- FORMULARIO PARA AGREGAR CAMION -->
+        <!-- ######## FORMULARIO PARA AGREGAR CAMION ######## -->
 
         <div class="row col-lg-12 col-xl-4 mb-5" *ngIf="roleUser === 'admin'">
             <div class="col-sm-12 col-md-8 w-100">
@@ -19,17 +19,31 @@
                         </div>
 
                         <div class="card-text">
-                            <label for="capacidadCarga" class="fw-bold">Capacidad de carga:</label>
-                            <input class="form-control" type="number" placeholder="Capacidad de carga" name="capacidadCarga" formControlName="capacidadCarga">
-                            <small class="text-danger" *ngIf="camionForm.get('capacidadCarga')?.touched && camionForm.get('capacidadCarga')?.invalid">
-                                La capacidad de carga es obligatoria
-                            </small>
+                            <div class="mb-4">
+                                <label for="capacidadCarga" class="fw-bold">Capacidad de carga:</label>
+                                <input class="form-control" type="number" placeholder="Capacidad de carga en kg" name="capacidadCarga" formControlName="capacidadCarga">
+                                <small class="text-danger" *ngIf="camionForm.get('capacidadCarga')?.touched && camionForm.get('capacidadCarga')?.invalid">
+                                    La capacidad de carga es obligatoria
+                                </small>
+                            </div>
 
-                            <label for="conductorAsignado" class="fw-bold">Conductor a cargo:</label>
-                            <select class="form-select" name="conductorAsignado" formControlName="conductorAsignado">
-                                <option value="" disabled selected>Conductor a cargo</option>
-                                <option [value]="user._id" *ngFor="let user of users">{{ user.nombre }}</option>
-                            </select>
+                            <div class="mb-4">
+                                <label for="conductorAsignado" class="fw-bold">Conductor a cargo:</label>
+                                <select class="form-select" name="conductorAsignado" formControlName="conductorAsignado">
+                                    <option [value]="user._id" *ngFor="let user of users">{{ user.nombre }}</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="ciudadOperacion" class="fw-bold">Ciudad operativa:</label>
+                                <select class="form-select" name="ciudadOperacion" formControlName="ciudadOperacion">
+                                    <option [value]="ciudad" *ngFor="let ciudad of ciudades">{{ ciudad }}</option>
+                                </select>
+                                <small class="text-danger" *ngIf="camionForm.get('ciudadOperacion')?.touched && camionForm.get('ciudadOperacion')?.invalid">
+                                    La ciudad operativa es obligatoria
+                                </small>
+                            </div>
+
                         </div>
 
                         <div class="rounded bg-danger col-12 p-2 text-white">
@@ -41,8 +55,8 @@
             </div>
         </div>
 
-        <!-- CARDS CUANDO ES ADMIN -->
-        
+        <!-- ######## CARDS CUANDO ES ADMIN ######## -->
+
         <div class="row col-lg-12 col-xl-8 justify-content-center" *ngIf="roleUser === 'admin'">
 
             <div class="alert alert-danger" *ngIf="camiones.length === 0">
@@ -81,21 +95,101 @@
                                 <p *ngIf="!camion.conductorAsignado">Sin conductor asignado</p>
                             </div>
 
+                            <div class="col-6">
+                                <span class="fw-bold">Ciudad de operación:</span>
+                                <p> {{ camion.ciudadOperacion }} </p>
+                            </div>
+
                         </div>
 
                         <div class="row w-100 justify-content-between">
-                            <div class="badge text-bg-success col-5 fs-5" *ngIf="camion.disponible === true">
+                            <div class="badge text-bg-success col-sm-12 col-md-5 mt-2 fs-5" *ngIf="camion.disponible === true">
                                 <span>Disponible</span>
                             </div>
 
-                            <div class="badge text-bg-danger col-5 fs-5" *ngIf="camion.disponible === false">
+                            <div class="badge text-bg-danger col-sm-12 col-md-5 mt-2 fs-5" *ngIf="camion.disponible === false">
                                 <span>No disponible</span>
                             </div>
 
-                            <button class="badge btn text-bg-warning col-5 fs-5" style="cursor: pointer;">
+                            <button 
+                                class="badge btn text-bg-warning col-sm-12 col-md-5 mt-2 fs-5" 
+                                (click)="asignarRemesas(camion._id)" 
+                                *ngIf="camion.remesasAsignadas?.length === 0" 
+                                style="cursor: pointer;"
+                            >
                                 Asignar remesas
                             </button>
+
+                            <button
+                                class="badge btn text-bg-primary col-sm-12 col-md-5 mt-2 fs-5"
+                                *ngIf="camion.remesasAsignadas?.length != 0" 
+                                style="cursor: pointer;" 
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                                Ver remesas
+                            </button>
+
+                            <!-- ######## MODAL DE REMESAS ASIGNADAS ######## -->
+
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Remesas asignadas</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                                <div class="row col-lg-12 col-xl-8 justify-content-center" *ngIf="roleUser === 'admin'">
+                                                <div class="col-12 mb-3" *ngFor="let remesa of camion.remesasAsignadas">
+                                                    <div class="card shadow-sm px-4 py-2 h-100">
+
+                                                        <div class="card-body d-flex flex-column justify-content-between gap-5">
+                                                            <div class="row align-items-center">
+                                                                <h4 class="card-title col-10 fw-bold mb-0">REMESA #{{ remesa.remesasAsignadas.codigo }}</h4>
+                                                            </div>
+
+                                                            <div class="card-text row">
+                                                                <div class="col-6">
+                                                                    <span class="fw-bold">Cantidad:</span>
+                                                                    <p>{{ remesa.cantidad }} und.</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <span class="fw-bold">Ciudad:</span>
+                                                                    <p>{{ remesa.ciudadEntrega }}</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <span class="fw-bold">Peso total:</span>
+                                                                    <p>{{ remesa.pesoTotal }} kg</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <span class="fw-bold">Direccion de entrega:</span>
+                                                                    <p>{{ remesa.direccionEntrega }}</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <span class="fw-bold">Tipo de mercancia:</span>
+                                                                    <p>{{ remesa.tipoMercancia }}</p>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
+
 
                     </div>
 
@@ -104,7 +198,7 @@
 
         </div>
 
-        <!-- CARDS CUANDO NO ES ADMIN -->
+        <!-- ######## CARDS CUANDO NO ES ADMIN ######## -->
 
         <div class="row col-12 justify-content-center" *ngIf="roleUser != 'admin'">
 
@@ -129,6 +223,14 @@
                                 <span class="fw-bold">Ubicacion actual:</span>
                                 <p *ngIf="camion.ubicacionActual === 'bodega'">En bodega</p>
                                 <p *ngIf="camion.ubicacionActual === 'enRuta'">En ruta</p>
+                            </div>
+
+                            <div class="col-6">
+                                <span class="fw-bold">Conductor asignado:</span>
+                                <p *ngIf="camion.conductorAsignado && typeof camion.conductorAsignado === 'object'">
+                                    {{ camion.conductorAsignado.nombre }}
+                                </p>
+                                <p *ngIf="!camion.conductorAsignado">Sin conductor asignado</p>
                             </div>
 
                         </div>

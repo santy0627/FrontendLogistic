@@ -1,4 +1,6 @@
+import { Ciudad } from "../constants/ciudades"
 import { User } from "./user"
+import { Remesa } from "./remesa"
 export interface Camion {
     _id: string,
     placa: string,
@@ -6,5 +8,6 @@ export interface Camion {
     disponible?: boolean,
     ubicacionActual: string,
     conductorAsignado?: User | string,
-    remesasAsignadas?: string[]
+    remesasAsignadas?: Remesa[],
+    ciudadOperacion: Ciudad
 }

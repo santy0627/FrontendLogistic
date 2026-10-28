@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../interfaces/user';
+import { apiUrl } from '../utils/api';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,7 @@ import { User } from '../interfaces/user';
 
 export class Auth {
   private http = inject(HttpClient); //POST GET PUT y demas consultas HTTP
+  private api = apiUrl
 
   private getHeaders(): HttpHeaders {
     const token = sessionStorage.getItem('token')
@@ -19,11 +21,11 @@ export class Auth {
   }
 
   register(user: User) : Observable<any> {
-    return this.http.post('http://localhost:3000/api/auth/register', user)
+    return this.http.post(`${this.api}/auth/register`, user)
   }
 
   login(credentials: Pick<User, 'email' | 'password'>): Observable<any> {
-    return this.http.post('http://localhost:3000/api/auth/login', credentials)
+    return this.http.post(`${this.api}/auth/login`, credentials)
   }
 
   saveTokenAndRole(token : string, roleUser: string) {
@@ -48,6 +50,6 @@ export class Auth {
   }
 
   getUsersByRole(role: string): Observable<User[]> {
-    return this.http.get<User[]>(`http://localhost:3000/api/auth/users/${role}`, { headers: this.getHeaders() })
+    return this.http.get<User[]>(`${this.api}/auth/users/${role}`, { headers: this.getHeaders() })
   }
 }
