@@ -1,39 +1,45 @@
 <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
   <div class="container">
     <a class="navbar-brand" href="#">Logistic</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      
-      <ng-container *ngIf="isAuthenticated"> 
+      <ng-container *ngIf="isAuthenticated">
         <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/remesas">Remesas</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/camiones">Camiones</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/rutas">Rutas</a>
-            </li>
-            <li class="nav-item">
-              <button class="nav-link" (click)="logout()">Cerrar sesión</button>
-            </li>
-          </ul>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/remesas">Remesas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/camiones">Camiones</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/rutas">Rutas</a>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" (click)="logout()">Cerrar sesión</button>
+          </li>
+        </ul>
       </ng-container>
-      
-      <ng-container *ngIf="!isAuthenticated"> 
+
+      <ng-container *ngIf="!isAuthenticated">
         <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/register">Registrarse</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/login">Iniciar sesión</a>
-            </li>
-          </ul>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/register">Registrarse</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/login">Iniciar sesión</a>
+          </li>
+        </ul>
       </ng-container>
-      
     </div>
   </div>
 </nav>

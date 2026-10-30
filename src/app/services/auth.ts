@@ -7,28 +7,27 @@ import { apiUrl } from '../utils/api';
 @Injectable({
   providedIn: 'root',
 })
-
 export class Auth {
   private http = inject(HttpClient); //POST GET PUT y demas consultas HTTP
-  private api = apiUrl
+  private api = apiUrl;
 
   private getHeaders(): HttpHeaders {
-    const token = sessionStorage.getItem('token')
+    const token = sessionStorage.getItem('token');
 
     return new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    })
+      Authorization: `Bearer ${token}`,
+    });
   }
 
-  register(user: User) : Observable<any> {
-    return this.http.post(`${this.api}/auth/register`, user)
+  register(user: User): Observable<any> {
+    return this.http.post(`${this.api}/auth/register`, user);
   }
 
   login(credentials: Pick<User, 'email' | 'password'>): Observable<any> {
-    return this.http.post(`${this.api}/auth/login`, credentials)
+    return this.http.post(`${this.api}/auth/login`, credentials);
   }
 
-  saveTokenAndRole(token : string, roleUser: string) {
+  saveTokenAndRole(token: string, roleUser: string) {
     sessionStorage.setItem('token', token);
     sessionStorage.setItem('roleUser', roleUser);
   }
@@ -36,12 +35,11 @@ export class Auth {
   isAuthenticated(): boolean {
     const token = sessionStorage.getItem('token');
 
-    if(token){
+    if (token) {
       return true;
     } else {
       return false;
     }
-
   }
 
   logout(): void {
@@ -50,6 +48,6 @@ export class Auth {
   }
 
   getUsersByRole(role: string): Observable<User[]> {
-    return this.http.get<User[]>(`${this.api}/auth/users/${role}`, { headers: this.getHeaders() })
+    return this.http.get<User[]>(`${this.api}/auth/users/${role}`, { headers: this.getHeaders() });
   }
 }

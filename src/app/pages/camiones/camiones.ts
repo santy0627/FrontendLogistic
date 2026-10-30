@@ -15,19 +15,17 @@ import { RemesaService } from '../../services/remesa';
   templateUrl: './camiones.html',
   styleUrl: './camiones.css',
 })
-
 export class Camiones implements OnInit {
-
   private camionService = inject(CamionService);
   private fb = inject(FormBuilder);
   private authService = inject(Auth);
-  private remesaService = inject(RemesaService)
+  private remesaService = inject(RemesaService);
 
   camiones: Camion[] = [];
   users: User[] = [];
-  error: string = ''
-  roleUser: string | null = sessionStorage.getItem('roleUser')
-  ciudades = ciudades
+  error: string = '';
+  roleUser: string | null = sessionStorage.getItem('roleUser');
+  ciudades = ciudades;
 
   camionForm = this.fb.group({
     placa: ['', Validators.required],
@@ -36,69 +34,67 @@ export class Camiones implements OnInit {
     ubicacionActual: [''],
     remesasAsignadas: [''],
     conductorAsignado: [''],
-    ciudadOperacion: ['', Validators.required]
-  })
+    ciudadOperacion: ['', Validators.required],
+  });
 
   ngOnInit(): void {
-    this.getAllCamiones()
-    this.getConductores()
+    this.getAllCamiones();
+    this.getConductores();
   }
 
   getConductores(): void {
     this.authService.getUsersByRole('conductor').subscribe({
       next: (res) => {
-        this.users = res
+        this.users = res;
       },
       error: (error) => {
-        console.log(error)
-      }
-    })
+        console.log(error);
+      },
+    });
   }
 
   getAllCamiones(): void {
     this.camionService.getAllCamiones().subscribe({
       next: (res) => {
-        console.log(res)
-        this.camiones = res
+        console.log(res);
+        this.camiones = res;
       },
       error: (error) => {
-        console.error(error)
-      }
-    })
+        console.error(error);
+      },
+    });
   }
 
-  createCamion() : void {
-    if(this.camionForm.invalid){
-      this.camionForm.markAsTouched()
+  createCamion(): void {
+    if (this.camionForm.invalid) {
+      this.camionForm.markAsTouched();
 
-      return
+      return;
     }
 
     this.camionService.createCamion(this.camionForm.value as any).subscribe({
-      next: (res) =>{
-
+      next: (res) => {
         Swal.fire({
           icon: 'success',
           title: 'Camión creado',
           text: 'Camión creado existosamente',
           confirmButtonText: 'Entendido',
-          confirmButtonColor: '#3085d6'
-        })
+          confirmButtonColor: '#3085d6',
+        });
 
-        this.getAllCamiones()
-        this.camionForm.reset()
+        this.getAllCamiones();
+        this.camionForm.reset();
       },
       error: (error) => {
-
-        if(error.error?.errors) {
+        if (error.error?.errors) {
           error.error.errors.forEach((e: any) => {
             const control = this.camionForm.get(e.path);
-            if(control) {
+            if (control) {
               control.setErrors({ serverError: e.msg });
               control.markAsTouched();
             }
           });
-          return
+          return;
         }
 
         this.error = error.error?.msg || 'Error al crear';
@@ -108,26 +104,23 @@ export class Camiones implements OnInit {
           title: 'Error al crear el camión',
           text: this.error,
           confirmButtonText: 'Entendido',
-          confirmButtonColor: '#d63030'
-        })
-  
-      }
-    })
+          confirmButtonColor: '#d63030',
+        });
+      },
+    });
   }
 
   deleteCamion(id: string | undefined): void {
-
     Swal.fire({
-      title: "Estás seguro?",
-      text: "Vas a eliminar el camion",
-      icon: "warning",
+      title: 'Estás seguro?',
+      text: 'Vas a eliminar el camion',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, eliminar"
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar',
     }).then((result) => {
       if (result.isConfirmed) {
-        
         this.camionService.deleteCamion(id).subscribe({
           next: (res) => {
             Swal.fire({
@@ -135,38 +128,36 @@ export class Camiones implements OnInit {
               title: 'Camión eliminado',
               text: 'El camión fue eliminado exitosamente',
               confirmButtonText: 'Entendido',
-              confirmButtonColor: '#3085d6'
-            })
+              confirmButtonColor: '#3085d6',
+            });
 
-            this.getAllCamiones()
+            this.getAllCamiones();
           },
           error: (error) => {
-
-            if(error.error?.errors) {
+            if (error.error?.errors) {
               error.error.errors.forEach((e: any) => {
                 const control = this.camionForm.get(e.path);
-                if(control) {
+                if (control) {
                   control.setErrors({ serverError: e.msg });
                   control.markAsTouched();
                 }
               });
-              return
+              return;
             }
 
             this.error = error.error?.msg || 'Error al eliminar';
-            
+
             Swal.fire({
               icon: 'error',
               title: 'Error al eliminar el camion',
               text: this.error,
               confirmButtonText: 'Entendido',
-              confirmButtonColor: '#d63030'
-            })
-          }
-        })
-    }
+              confirmButtonColor: '#d63030',
+            });
+          },
+        });
+      }
     });
-
   }
 
   asignarRemesas(id: string | undefined): void {
@@ -177,69 +168,63 @@ export class Camiones implements OnInit {
           title: 'Remesas asignadas',
           text: 'Se asignaron las remesas correctamente',
           confirmButtonText: 'Entendido',
-          confirmButtonColor: '#3085d6'
-        })
+          confirmButtonColor: '#3085d6',
+        });
 
-        this.getAllCamiones()
+        this.getAllCamiones();
       },
       error: (error) => {
-
-        if(error.error?.errors) {
+        if (error.error?.errors) {
           error.error.errors.forEach((e: any) => {
             const control = this.camionForm.get(e.path);
-            if(control) {
+            if (control) {
               control.setErrors({ serverError: e.msg });
               control.markAsTouched();
             }
           });
-          return
+          return;
         }
 
         this.error = error.error?.msg || 'Error al asignar';
-            
+
         Swal.fire({
           icon: 'error',
           title: 'Error al asignar las remesas',
           text: this.error,
           confirmButtonText: 'Entendido',
-          confirmButtonColor: '#d63030'
-        })
-      }
-    })
+          confirmButtonColor: '#d63030',
+        });
+      },
+    });
   }
 
   cargarRemesa(id: string | undefined, remesaId: string | undefined): void {
     this.camionService.cargarRemesa(id, remesaId).subscribe({
       next: (res) => {
-
-        this.getAllCamiones()
-
+        this.getAllCamiones();
       },
       error: (error) => {
-
-        if(error.error?.errors) {
+        if (error.error?.errors) {
           error.error.errors.forEach((e: any) => {
             const control = this.camionForm.get(e.path);
-            if(control) {
+            if (control) {
               control.setErrors({ serverError: e.msg });
               control.markAsTouched();
             }
           });
-          return
+          return;
         }
 
         this.error = error.error?.msg || 'Error al cargar';
-            
+
         Swal.fire({
           icon: 'error',
           title: 'Error al cargar la remesa',
           text: this.error,
           confirmButtonText: 'Entendido',
-          confirmButtonColor: '#d63030'
-        })
-
-      }
-    })
+          confirmButtonColor: '#d63030',
+        });
+      },
+    });
   }
-
 }

@@ -1,6 +1,6 @@
 import { Component, DoCheck, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RouterLink, Router} from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { Auth } from '../../services/auth';
 
 @Component({
@@ -9,8 +9,7 @@ import { Auth } from '../../services/auth';
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
-export class Navbar implements DoCheck{
-
+export class Navbar implements DoCheck {
   private authService = inject(Auth);
   private router = inject(Router);
 
@@ -20,8 +19,8 @@ export class Navbar implements DoCheck{
     this.isAuthenticated = this.authService.isAuthenticated();
   }
 
-  logout(): void{
+  logout(): void {
     this.authService.logout();
-    this.router.navigate(['/login'])
+    this.router.navigate(['/login']);
   }
 }
