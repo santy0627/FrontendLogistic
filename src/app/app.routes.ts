@@ -6,27 +6,27 @@ import { authGuard } from './guards/auth';
 import { Camiones } from './pages/camiones/camiones';
 
 export const routes: Routes = [
-    {
-        path:'',
-        redirectTo: '/login',
-        pathMatch: 'full'
-    },
-    {
-        path: 'login',
-        component: Login
-    },
-    {
-        path: 'register',
-        component: Register
-    },
-    {
-        path: 'remesas',
-        component: Remesas,
-        canActivate: [authGuard]
-    },
-    {
-        path: 'camiones',
-        component: Camiones,
-        canActivate: [authGuard]
-    }
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full',
+  },
+  {
+    path: 'login',
+    component: Login,
+  },
+  {
+    path: 'register',
+    component: Register,
+  },
+  {
+    path: 'remesas',
+    component: Remesas,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'camiones',
+    component: Camiones,
+    canActivate: [authGuard],
+  },
 ];

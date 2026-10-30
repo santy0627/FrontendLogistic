@@ -12,16 +12,14 @@ import { ciudades } from '../../constants/ciudades';
   templateUrl: './remesas.html',
   styleUrl: './remesas.css',
 })
-
-export class Remesas implements OnInit{
-
+export class Remesas implements OnInit {
   private remesaService = inject(RemesaService);
-  private fb = inject(FormBuilder)
+  private fb = inject(FormBuilder);
 
   remesas: Remesa[] = [];
-  error: string = ''
-  roleUser: string | null = sessionStorage.getItem('roleUser')
-  ciudades = ciudades
+  error: string = '';
+  roleUser: string | null = sessionStorage.getItem('roleUser');
+  ciudades = ciudades;
 
   remesaForm = this.fb.group({
     codigo: ['', Validators.required],
@@ -30,96 +28,91 @@ export class Remesas implements OnInit{
     direccionEntrega: ['', Validators.required],
     ciudadEntrega: ['', Validators.required],
     tipoMercancia: ['', Validators.required],
-    estado: ['']
-  })
+    estado: [''],
+  });
 
   ngOnInit(): void {
-    this.getAllRemesas()
+    this.getAllRemesas();
   }
 
   getAllRemesas(): void {
     this.remesaService.getAllRemesas().subscribe({
       next: (res) => {
-        this.remesas = res
+        this.remesas = res;
       },
       error: (error) => {
-        console.error(error)
-      }
-    })
+        console.error(error);
+      },
+    });
   }
 
   getRemesasPorEstado(estado: string): void {
     this.remesaService.getRemesasPorEstado(estado).subscribe({
       next: (res) => {
-        this.remesas = res
+        this.remesas = res;
       },
       error: (error) => {
-        console.error(error)
-      }
-    })
+        console.error(error);
+      },
+    });
   }
 
-  createRemesa() : void {
-    if(this.remesaForm.invalid){
-      this.remesaForm.markAsTouched()
+  createRemesa(): void {
+    if (this.remesaForm.invalid) {
+      this.remesaForm.markAsTouched();
 
-      return
+      return;
     }
 
     this.remesaService.createRemesa(this.remesaForm.value as any).subscribe({
-      next: (res) =>{
-
+      next: (res) => {
         Swal.fire({
           icon: 'success',
           title: 'Remesa creada',
           text: 'Remesa creada existosamente',
           confirmButtonText: 'Entendido',
-          confirmButtonColor: '#3085d6'
-        })
+          confirmButtonColor: '#3085d6',
+        });
 
-        this.getAllRemesas()
-        this.remesaForm.reset()
+        this.getAllRemesas();
+        this.remesaForm.reset();
       },
       error: (error) => {
-
-        if(error.error?.errors) {
+        if (error.error?.errors) {
           error.error.errors.forEach((e: any) => {
             const control = this.remesaForm.get(e.path);
-            if(control) {
+            if (control) {
               control.setErrors({ serverError: e.msg });
               control.markAsTouched();
             }
           });
-          return
+          return;
         }
 
         this.error = error.error?.msg || 'Error al crear';
-        
+
         Swal.fire({
           icon: 'error',
           title: 'Error al crear la remesa',
           text: this.error,
           confirmButtonText: 'Entendido',
-          confirmButtonColor: '#d63030'
-        })
-
-      }
-    })
+          confirmButtonColor: '#d63030',
+        });
+      },
+    });
   }
 
-  deleteRemesa(id: string | undefined) : void {
-
+  deleteRemesa(id: string | undefined): void {
     Swal.fire({
-      title: "Estás seguro?",
-      text: "Vas a eliminar la remesa",
-      icon: "warning",
+      title: 'Estás seguro?',
+      text: 'Vas a eliminar la remesa',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, eliminar"
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar',
     }).then((result) => {
       if (result.isConfirmed) {
-        
         this.remesaService.deleteRemesa(id).subscribe({
           next: (res) => {
             Swal.fire({
@@ -127,38 +120,35 @@ export class Remesas implements OnInit{
               title: 'Remesa eliminada',
               text: 'La remesa fue eliminada exitosamente',
               confirmButtonText: 'Entendido',
-              confirmButtonColor: '#3085d6'
-            })
+              confirmButtonColor: '#3085d6',
+            });
 
-            this.getAllRemesas()
+            this.getAllRemesas();
           },
           error: (error) => {
-
-            if(error.error?.errors) {
+            if (error.error?.errors) {
               error.error.errors.forEach((e: any) => {
                 const control = this.remesaForm.get(e.path);
-                if(control) {
+                if (control) {
                   control.setErrors({ serverError: e.msg });
                   control.markAsTouched();
                 }
               });
-              return
+              return;
             }
 
             this.error = error.error?.msg || 'Error al eliminar';
-            
+
             Swal.fire({
               icon: 'error',
               title: 'Error al eliminar la remesa',
               text: this.error,
               confirmButtonText: 'Entendido',
-              confirmButtonColor: '#d63030'
-            })
-          }
-        })
-    }
+              confirmButtonColor: '#d63030',
+            });
+          },
+        });
+      }
     });
-
   }
-
 }
