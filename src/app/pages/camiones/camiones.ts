@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { Auth } from '../../services/auth';
 import { User } from '../../interfaces/user';
 import { ciudades } from '../../constants/ciudades';
+import { RemesaService } from '../../services/remesa';
 
 @Component({
   selector: 'app-camiones',
@@ -20,6 +21,7 @@ export class Camiones implements OnInit {
   private camionService = inject(CamionService);
   private fb = inject(FormBuilder);
   private authService = inject(Auth);
+  private remesaService = inject(RemesaService)
 
   camiones: Camion[] = [];
   users: User[] = [];
@@ -202,6 +204,40 @@ export class Camiones implements OnInit {
           confirmButtonText: 'Entendido',
           confirmButtonColor: '#d63030'
         })
+      }
+    })
+  }
+
+  cargarRemesa(id: string | undefined, remesaId: string | undefined): void {
+    this.camionService.cargarRemesa(id, remesaId).subscribe({
+      next: (res) => {
+
+        this.getAllCamiones()
+
+      },
+      error: (error) => {
+
+        if(error.error?.errors) {
+          error.error.errors.forEach((e: any) => {
+            const control = this.camionForm.get(e.path);
+            if(control) {
+              control.setErrors({ serverError: e.msg });
+              control.markAsTouched();
+            }
+          });
+          return
+        }
+
+        this.error = error.error?.msg || 'Error al cargar';
+            
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al cargar la remesa',
+          text: this.error,
+          confirmButtonText: 'Entendido',
+          confirmButtonColor: '#d63030'
+        })
+
       }
     })
   }

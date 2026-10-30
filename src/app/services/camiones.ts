@@ -33,10 +33,14 @@ export class CamionService {
     }
 
     deleteCamion(id: string | undefined) : Observable<Camion> {
-        return this.http.delete<Camion>(`${this.api}/camion/${id}`,{ headers: this.getHeaders() })
+        return this.http.delete<Camion>(`${this.api}/camion/${id}`, { headers: this.getHeaders() })
     }
 
     asignarRemesas(id: string | undefined) : Observable<Camion> {
         return this.http.put<Camion>(`${this.api}/camion/${id}/remesas`, {}, { headers: this.getHeaders() })
+    }
+
+    cargarRemesa(id: string | undefined, remesaId: string | undefined): Observable<Camion> {
+        return this.http.put<Camion>(`${this.api}/camion/${id}/remesas/${remesaId}/cargar`, {}, { headers: this.getHeaders() })
     }
 }

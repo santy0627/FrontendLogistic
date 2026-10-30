@@ -9,5 +9,6 @@ export interface Camion {
     ubicacionActual: string,
     conductorAsignado?: User | string,
     remesasAsignadas?: Remesa[],
-    ciudadOperacion: Ciudad
+    ciudadOperacion: Ciudad,
+    remesasCargadas?: Remesa[]
 }

@@ -32,8 +32,8 @@ export class RemesaService {
         return this.http.post<Remesa>(`${this.api}/remesas`, remesa, { headers: this.getHeaders() })
     }
 
-    updateRemesa(id: string, remesa: any) : Observable<Remesa> {
-        return this.http.put<Remesa>(`${this.api}/remesas/${id}`, remesa, { headers: this.getHeaders() })
+    updateRemesa(id: string, estado: string) : Observable<Remesa> {
+        return this.http.put<Remesa>(`${this.api}/remesas/${id}`, { estado }, { headers: this.getHeaders() })
     }
 
     deleteRemesa(id: string | undefined) : Observable<Remesa> {
