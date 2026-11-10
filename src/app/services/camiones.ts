@@ -27,8 +27,8 @@ export class CamionService {
     return this.http.post<Camion>(`${this.api}/camion`, camion, { headers: this.getHeaders() });
   }
 
-  updateCamion(id: string, camion: any): Observable<Camion> {
-    return this.http.put<Camion>(`${this.api}/camion/${id}`, camion, {
+  updateCamion(id: string, disponible: boolean): Observable<Camion> {
+    return this.http.put<Camion>(`${this.api}/camion/${id}`, { disponible }, {
       headers: this.getHeaders(),
     });
   }

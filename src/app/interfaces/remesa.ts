@@ -5,8 +5,12 @@ export interface Remesa {
   codigo: number;
   cantidad: number;
   pesoTotal: number;
-  direccionEntrega: string;
-  ciudadEntrega: Ciudad;
+  direccionDestino: string;
+  ciudadDestino: Ciudad;
   tipoMercancia: string;
   estado?: string;
+  remitente: string;
+  destinatario: string;
+  ciudadOrigen: Ciudad;
+  barrioDestino: string;
 }

@@ -4,7 +4,7 @@ import { Remesa } from '../../interfaces/remesa';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { ciudades } from '../../constants/ciudades';
+import { barriosCiudades, Ciudad, ciudades } from '../../constants/ciudades';
 
 @Component({
   selector: 'app-remesas',
@@ -15,24 +15,47 @@ import { ciudades } from '../../constants/ciudades';
 export class Remesas implements OnInit {
   private remesaService = inject(RemesaService);
   private fb = inject(FormBuilder);
+  
+  private configBarrios(): void {
+    const barrioControl = this.remesaForm.get('barrioDestino');
+    barrioControl?.disable();
+
+    this.remesaForm.controls.ciudadDestino.valueChanges.subscribe((ciudad) => {
+      barrioControl?.reset();
+
+      if (ciudad && Object.hasOwn(barriosCiudades, ciudad )){
+        this.barrios = barriosCiudades[ciudad as Ciudad]
+        barrioControl?.enable();
+      } else {
+        this.barrios = []
+        barrioControl?.disable();
+      }
+    })
+  }
 
   remesas: Remesa[] = [];
   error: string = '';
   roleUser: string | null = sessionStorage.getItem('roleUser');
   ciudades = ciudades;
+  barrios: readonly string[] = [];
 
   remesaForm = this.fb.group({
     codigo: ['', Validators.required],
     cantidad: ['', Validators.required],
     pesoTotal: ['', Validators.required],
-    direccionEntrega: ['', Validators.required],
-    ciudadEntrega: ['', Validators.required],
+    direccionDestino: ['', Validators.required],
+    ciudadDestino: ['', Validators.required],
     tipoMercancia: ['', Validators.required],
     estado: [''],
+    remitente: ['', Validators.required],
+    destinatario: ['', Validators.required],
+    ciudadOrigen: ['', Validators.required],
+    barrioDestino: ['', Validators.required],
   });
 
   ngOnInit(): void {
     this.getAllRemesas();
+    this.configBarrios();
   }
 
   getAllRemesas(): void {

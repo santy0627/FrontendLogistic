@@ -54,7 +54,7 @@ export class Login {
           error.error.errors.forEach((e: any) => {
             const control = this.loginForm.get(e.path);
             if (control) {
-              control.setErrors({ serverErrror: e.msg });
+              control.setErrors({ serverError: e.msg });
               control.markAsTouched();
             }
           });

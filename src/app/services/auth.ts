@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../interfaces/user';
 import { apiUrl } from '../utils/api';
+import { MeResponse } from '../interfaces/meResponse';
 
 @Injectable({
   providedIn: 'root',
@@ -49,5 +50,9 @@ export class Auth {
 
   getUsersByRole(role: string): Observable<User[]> {
     return this.http.get<User[]>(`${this.api}/auth/users/${role}`, { headers: this.getHeaders() });
+  }
+
+  getMe(): Observable<MeResponse> {
+    return this.http.get<MeResponse>(`${this.api}/auth/me`, {headers: this.getHeaders()});
   }
 }

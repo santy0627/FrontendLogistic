@@ -21,8 +21,8 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="/camiones">Camiones</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/rutas">Rutas</a>
+          <li class="nav-item" *ngIf="roleUser === 'conductor'">
+            <a class="nav-link" routerLink="/conductor">Ruta</a>
           </li>
           <li class="nav-item">
             <button class="nav-link" (click)="logout()">Cerrar sesión</button>

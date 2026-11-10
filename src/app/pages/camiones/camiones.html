@@ -93,7 +93,7 @@
         No hay camiones registrados
       </div>
 
-      <div class="col-sm-12 col-md-12 mb-3" *ngFor="let camion of camiones">
+      <div class="col-sm-12 col-md-12 mb-3" *ngFor="let camion of camiones; trackBy: trackById">
         <div class="card shadow-sm px-4 py-2">
           <div class="card-body d-flex flex-column justify-content-between gap-5">
             <div class="row align-items-center">
@@ -145,6 +145,8 @@
               <div
                 class="badge text-bg-success col-sm-12 col-md-5 mt-2 fs-5"
                 *ngIf="camion.disponible === true"
+                (click)="desactivarCamion(camion._id,camion.disponible)"
+                style="cursor: pointer;"
               >
                 <span>Disponible</span>
               </div>
@@ -152,6 +154,8 @@
               <div
                 class="badge text-bg-danger col-sm-12 col-md-5 mt-2 fs-5"
                 *ngIf="camion.disponible === false"
+                (click)="desactivarCamion(camion._id,camion.disponible)"
+                style="cursor: pointer;"
               >
                 <span>No disponible</span>
               </div>
@@ -206,7 +210,7 @@
                         class="row justify-content-center"
                         *ngIf="camion.remesasAsignadas?.length !== 0"
                       >
-                        <div class="col-12 mb-3" *ngFor="let remesa of camion.remesasAsignadas">
+                        <div class="col-12 mb-3" *ngFor="let remesa of camion.remesasAsignadas; trackBy: trackById">
                           <div class="card shadow-sm px-4 py-2 h-100">
                             <div class="card-body d-flex flex-column justify-content-between gap-5">
                               <div class="row align-items-center">
@@ -221,7 +225,7 @@
                                 </div>
                                 <div class="col-6">
                                   <span class="fw-bold">Ciudad:</span>
-                                  <p>{{ remesa.ciudadEntrega }}</p>
+                                  <p>{{ remesa.ciudadDestino }}</p>
                                 </div>
                                 <div class="col-6">
                                   <span class="fw-bold">Peso total:</span>
@@ -229,7 +233,7 @@
                                 </div>
                                 <div class="col-6">
                                   <span class="fw-bold">Direccion de entrega:</span>
-                                  <p>{{ remesa.direccionEntrega }}</p>
+                                  <p>{{ remesa.direccionDestino }}</p>
                                 </div>
                                 <div class="col-6">
                                   <span class="fw-bold">Tipo de mercancia:</span>
@@ -252,7 +256,7 @@
                         class="row justify-content-center"
                         *ngIf="camion.remesasCargadas?.length !== 0"
                       >
-                        <div class="col-12 mb-3" *ngFor="let remesa of camion.remesasCargadas">
+                        <div class="col-12 mb-3" *ngFor="let remesa of camion.remesasCargadas; trackBy: trackById">
                           <div class="card shadow-sm px-4 py-2 h-100">
                             <div class="card-body d-flex flex-column justify-content-between gap-5">
                               <div class="row align-items-center">
@@ -267,7 +271,7 @@
                                 </div>
                                 <div class="col-6">
                                   <span class="fw-bold">Ciudad:</span>
-                                  <p>{{ remesa.ciudadEntrega }}</p>
+                                  <p>{{ remesa.ciudadDestino }}</p>
                                 </div>
                                 <div class="col-6">
                                   <span class="fw-bold">Peso total:</span>
@@ -275,7 +279,7 @@
                                 </div>
                                 <div class="col-6">
                                   <span class="fw-bold">Direccion de entrega:</span>
-                                  <p>{{ remesa.direccionEntrega }}</p>
+                                  <p>{{ remesa.direccionDestino }}</p>
                                 </div>
                                 <div class="col-6">
                                   <span class="fw-bold">Tipo de mercancia:</span>
@@ -315,7 +319,7 @@
         No hay camiones registrados
       </div>
 
-      <div class="col-sm-12 col-md-6 mb-3" *ngFor="let camion of camiones">
+      <div class="col-sm-12 col-md-6 mb-3" *ngFor="let camion of camiones; trackBy: trackById">
         <div class="card shadow-sm px-4 py-2">
           <div class="card-body d-flex flex-column justify-content-between gap-5">
             <div class="row align-items-center">
@@ -361,7 +365,9 @@
 
               <button
                 class="badge btn text-bg-primary col-sm-12 col-md-5 mt-2 fs-5"
-                *ngIf="camion.remesasAsignadas?.length != 0"
+                *ngIf="
+                  camion.remesasAsignadas?.length !== 0 || camion.remesasCargadas?.length !== 0
+                "
                 style="cursor: pointer"
                 data-bs-toggle="modal"
                 [attr.data-bs-target]="'#modal-' + camion._id"
@@ -394,7 +400,7 @@
                   </div>
                   <div class="modal-body">
                     <div class="row justify-content-center">
-                      <div class="col-12 mb-3" *ngFor="let remesa of camion.remesasAsignadas">
+                      <div class="col-12 mb-3" *ngFor="let remesa of camion.remesasAsignadas; trackBy: trackById">
                         <div class="card shadow-sm px-4 py-2 h-100">
                           <div class="card-body d-flex flex-column justify-content-between gap-5">
                             <div class="row align-items-center">
@@ -410,7 +416,7 @@
                               </div>
                               <div class="col-6">
                                 <span class="fw-bold">Ciudad:</span>
-                                <p>{{ remesa.ciudadEntrega }}</p>
+                                <p>{{ remesa.ciudadDestino }}</p>
                               </div>
                               <div class="col-6">
                                 <span class="fw-bold">Peso total:</span>
@@ -418,11 +424,57 @@
                               </div>
                               <div class="col-6">
                                 <span class="fw-bold">Direccion de entrega:</span>
-                                <p>{{ remesa.direccionEntrega }}</p>
+                                <p>{{ remesa.direccionDestino }}</p>
                               </div>
                               <div class="col-6">
                                 <span class="fw-bold">Tipo de mercancia:</span>
                                 <p>{{ remesa.tipoMercancia }}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div
+                        class="row justify-content-center"
+                        *ngIf="camion.remesasCargadas?.length !== 0"
+                      >
+                        <div class="col-12 mb-3" *ngFor="let remesa of camion.remesasCargadas; trackBy: trackById">
+                          <div class="card shadow-sm px-4 py-2 h-100">
+                            <div class="card-body d-flex flex-column justify-content-between gap-5">
+                              <div class="row align-items-center">
+                                <h4 class="card-title col-10 fw-bold mb-0 text-primary">
+                                  REMESA #{{ remesa.codigo }}
+                                </h4>
+                              </div>
+                              <div class="card-text row">
+                                <div class="col-6">
+                                  <span class="fw-bold">Cantidad:</span>
+                                  <p>{{ remesa.cantidad }} und.</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Ciudad:</span>
+                                  <p>{{ remesa.direccionDestino }}</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Peso total:</span>
+                                  <p>{{ remesa.pesoTotal }} kg</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Direccion de entrega:</span>
+                                  <p>{{ remesa.direccionDestino }}</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Tipo de mercancia:</span>
+                                  <p>{{ remesa.tipoMercancia }}</p>
+                                </div>
+
+                                <button
+                                  class="badge btn text-bg-warning p-2 fs-5"
+                                  style="cursor: default"
+                                >
+                                  Remesa cargada
+                                </button>
                               </div>
                             </div>
                           </div>

@@ -1,9 +1,9 @@
-<div class="container d-flex pt-5 px-0 content overflow-y-scroll overflow-x-hidden">
-  <div class="row">
+<div class="container d-flex pt-5 px-0 content">
+  <div class="row justify-content-center">
     <!-- FORMULARIO PARA AGREGAR REMESA -->
 
-    <div class="row col-lg-12 col-xl-4 mb-5" *ngIf="roleUser === 'admin'">
-      <div class="col-sm-12 col-md-8 w-100">
+    <div class="row col-lg-12 col-xl-5 mb-5" *ngIf="roleUser === 'admin'">
+      <div class="col-12 w-100">
         <div class="card shadow-sm px-4 py-2">
           <form class="card-body row gap-5" [formGroup]="remesaForm" (ngSubmit)="createRemesa()">
             <div class="card-title">
@@ -24,7 +24,7 @@
             </div>
 
             <div class="card-text row">
-              <div class="col-6">
+              <div class="col-6 mb-3">
                 <label for="cantidad" class="fw-bold">Cantidad:</label>
                 <input
                   class="form-control"
@@ -40,23 +40,59 @@
                   La cantidad es obligatoria
                 </small>
               </div>
-              <div class="col-6">
-                <label for="ciudad" class="fw-bold">Ciudad:</label>
-                <select class="form-select" name="ciudad" formControlName="ciudadEntrega">
-                  <option value="" disabled selected>Ciudad de entrega</option>
+              <div class="col-6 mb-3">
+                <label for="ciudad" class="fw-bold">Ciudad de entrega:</label>
+                <select class="form-select" name="ciudad" formControlName="ciudadDestino">
+                  <option value="" disabled selected>Ciudad de destino</option>
                   <option *ngFor="let ciudad of ciudades" [value]="ciudad">{{ ciudad }}</option>
                 </select>
                 <small
                   class="text-danger"
                   *ngIf="
-                    remesaForm.get('ciudadEntrega')?.touched &&
-                    remesaForm.get('ciudadEntrega')?.invalid
+                    remesaForm.get('ciudadDestino')?.touched &&
+                    remesaForm.get('ciudadDestino')?.invalid
                   "
                 >
-                  La ciudad de entrega es obligatoria
+                  La ciudad de destino es obligatoria
                 </small>
               </div>
-              <div class="col-6">
+              <div class="col-6 mb-3">
+                <label for="barrioDestino" class="fw-bold">Barrio de destino:</label>
+                <select class="form-select" name="barrioDestino" formControlName="barrioDestino">
+                  <option value="" disabled selected>
+                    {{ barrios.length ? 'Selecciona un barrio' : 'Primero elige la ciudad' }}
+                  </option>
+                  <option *ngFor="let barrio of barrios" [value]="barrio">{{ barrio }}</option>
+                </select>
+                <small
+                  class="text-danger"
+                  *ngIf="
+                    remesaForm.get('barrioDestino')?.touched && remesaForm.get('barrioDestino')?.invalid
+                  "
+                >
+                  El barrio de destino es obligatorio
+                </small>
+              </div>
+              <div class="col-6 mb-3">
+                <label for="direccion" class="fw-bold">Direccion:</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Direccion"
+                  name="direccion"
+                  formControlName="direccionDestino"
+                />
+                <small
+                  class="text-danger"
+                  *ngIf="
+                    remesaForm.get('direccionDestino')?.touched &&
+                    remesaForm.get('direccionDestino')?.invalid
+                  "
+                >
+                  La direccion de destino es obligatoria
+                </small>
+              </div>
+              <div class="col-6 mb-3">
                 <label for="pesoTotal" class="fw-bold">Peso total:</label>
                 <input
                   class="form-control"
@@ -74,26 +110,7 @@
                   El peso total es obligatorio
                 </small>
               </div>
-              <div class="col-6">
-                <label for="direccion" class="fw-bold">Direccion:</label>
-                <input
-                  class="form-control"
-                  type="text"
-                  placeholder="Direccion"
-                  name="direccion"
-                  formControlName="direccionEntrega"
-                />
-                <small
-                  class="text-danger"
-                  *ngIf="
-                    remesaForm.get('direccionEntrega')?.touched &&
-                    remesaForm.get('direccionEntrega')?.invalid
-                  "
-                >
-                  La direccion de entrega es obligatoria
-                </small>
-              </div>
-              <div class="col-6">
+              <div class="col-6 mb-3">
                 <label for="tipoMercancia" class="fw-bold">Tipo de mercancia:</label>
                 <select class="form-select" name="tipoMercancia" formControlName="tipoMercancia">
                   <option value="" disabled selected>Tipo de mercancia</option>
@@ -111,6 +128,58 @@
                   El tipo de mercancia es obligatorio
                 </small>
               </div>
+              <div class="col-6 mb-3">
+                <label for="remitente" class="fw-bold">Remitente:</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Remitente"
+                  name="remitente"
+                  formControlName="remitente"
+                />
+                <small
+                  class="text-danger"
+                  *ngIf="
+                    remesaForm.get('remitente')?.touched && remesaForm.get('remitente')?.invalid
+                  "
+                >
+                  El remitente es obligatorio
+                </small>
+              </div>
+              <div class="col-6 mb-3">
+                <label for="destinatario" class="fw-bold">Destinatario:</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Destinatario"
+                  name="destinatario"
+                  formControlName="destinatario"
+                />
+                <small
+                  class="text-danger"
+                  *ngIf="
+                    remesaForm.get('destinatario')?.touched && remesaForm.get('destinatario')?.invalid
+                  "
+                >
+                  El destinatario es obligatorio
+                </small>
+              </div>
+              <div class="col-6 mb-3">
+                <label for="ciudadOrigen" class="fw-bold">Ciudad de origen:</label>
+                <select class="form-select" name="ciudadOrigen" formControlName="ciudadOrigen">
+                  <option value="" disabled selected>Ciudad de origenx|</option>
+                  <option *ngFor="let ciudad of ciudades" [value]="ciudad">{{ ciudad }}</option>
+                </select>
+                <small
+                  class="text-danger"
+                  *ngIf="
+                    remesaForm.get('ciudadOrigen')?.touched &&
+                    remesaForm.get('ciudadOrigen')?.invalid
+                  "
+                >
+                  La ciudad de origen es obligatoria
+                </small>
+              </div>
             </div>
 
             <div class="rounded bg-danger col-12 p-2 text-white">
@@ -125,10 +194,10 @@
 
     <!-- CARDS CUANDO ES ADMIN -->
 
-    <div class="row col-lg-12 col-xl-8 justify-content-center" *ngIf="roleUser === 'admin'">
+    <div class="row col-lg-12 col-xl-7 justify-content-center" *ngIf="roleUser === 'admin'">
       <div class="alert alert-danger" *ngIf="remesas.length === 0">No hay remesas registradas</div>
 
-      <div class="col-sm-12 col-md-6 mb-3" *ngFor="let remesa of remesas">
+      <div class="col-11 mb-3" *ngFor="let remesa of remesas">
         <div class="card shadow-sm px-4 py-2 h-100">
           <div class="card-body d-flex flex-column justify-content-between gap-5">
             <div class="row align-items-center">
@@ -155,16 +224,16 @@
                 <p>{{ remesa.cantidad }} und.</p>
               </div>
               <div class="col-6">
-                <span class="fw-bold">Ciudad:</span>
-                <p>{{ remesa.ciudadEntrega }}</p>
+                <span class="fw-bold">Ciudad de destino:</span>
+                <p>{{ remesa.ciudadDestino }}</p>
               </div>
               <div class="col-6">
                 <span class="fw-bold">Peso total:</span>
                 <p>{{ remesa.pesoTotal }} kg</p>
               </div>
               <div class="col-6">
-                <span class="fw-bold">Direccion de entrega:</span>
-                <p>{{ remesa.direccionEntrega }}</p>
+                <span class="fw-bold">Direccion de destino:</span>
+                <p>{{ remesa.direccionDestino }}</p>
               </div>
               <div class="col-6">
                 <span class="fw-bold">Tipo de mercancia:</span>
@@ -201,7 +270,7 @@
     <div class="row col-12 justify-content-center" *ngIf="roleUser != 'admin'">
       <div class="alert alert-danger" *ngIf="remesas.length === 0">No hay remesas registradas</div>
 
-      <div class="col-sm-12 col-md-5 col-lg-4 mb-3" *ngFor="let remesa of remesas">
+      <div class="col-sm-12 col-md-10 col-xl-6 mb-3" *ngFor="let remesa of remesas">
         <div class="card shadow-sm px-4 py-2 h-100">
           <div class="card-body d-flex flex-column justify-content-between gap-5">
             <div class="row align-items-center">
@@ -214,16 +283,16 @@
                 <p>{{ remesa.cantidad }} und.</p>
               </div>
               <div class="col-6">
-                <span class="fw-bold">Ciudad:</span>
-                <p>{{ remesa.ciudadEntrega }}</p>
+                <span class="fw-bold">Ciudad de destino:</span>
+                <p>{{ remesa.ciudadDestino }}</p>
               </div>
               <div class="col-6">
                 <span class="fw-bold">Peso total:</span>
                 <p>{{ remesa.pesoTotal }} kg</p>
               </div>
               <div class="col-6">
-                <span class="fw-bold">Direccion de entrega:</span>
-                <p>{{ remesa.direccionEntrega }}</p>
+                <span class="fw-bold">Direccion de destino:</span>
+                <p>{{ remesa.direccionDestino }}</p>
               </div>
               <div class="col-6">
                 <span class="fw-bold">Tipo de mercancia:</span>

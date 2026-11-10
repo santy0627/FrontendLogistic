@@ -30,9 +30,6 @@ export class Camiones implements OnInit {
   camionForm = this.fb.group({
     placa: ['', Validators.required],
     capacidadCarga: ['', Validators.required],
-    disponible: [''],
-    ubicacionActual: [''],
-    remesasAsignadas: [''],
     conductorAsignado: [''],
     ciudadOperacion: ['', Validators.required],
   });
@@ -40,6 +37,10 @@ export class Camiones implements OnInit {
   ngOnInit(): void {
     this.getAllCamiones();
     this.getConductores();
+  }
+
+  trackById(i: number, item: { _id?: string }): string | undefined {
+    return item._id
   }
 
   getConductores(): void {
@@ -56,7 +57,6 @@ export class Camiones implements OnInit {
   getAllCamiones(): void {
     this.camionService.getAllCamiones().subscribe({
       next: (res) => {
-        console.log(res);
         this.camiones = res;
       },
       error: (error) => {
@@ -224,7 +224,44 @@ export class Camiones implements OnInit {
           confirmButtonText: 'Entendido',
           confirmButtonColor: '#d63030',
         });
-      },
+      }
     });
+  }
+
+  desactivarCamion(id: string, disponible: boolean): void {
+    this.camionService.updateCamion(id, !disponible).subscribe({
+      next: (res) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Camión actualizado',
+          text: 'Camión actualizado existosamente',
+          confirmButtonText: 'Entendido',
+          confirmButtonColor: '#3085d6',
+        });
+        this.getAllCamiones();
+      },
+      error: (error) => {
+          if (error.error?.errors) {
+            error.error.errors.forEach((e: any) => {
+              const control = this.camionForm.get(e.path);
+              if (control) {
+                control.setErrors({ serverError: e.msg });
+                control.markAsTouched();
+              }
+            });
+            return;
+          }
+
+          this.error = error.error?.msg || 'Error al actualizar';
+
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al actualizar el camión',
+            text: this.error,
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: '#d63030',
+          });
+      }
+    })
   }
 }

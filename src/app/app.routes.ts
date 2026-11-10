@@ -4,6 +4,7 @@ import { Register } from './pages/register/register';
 import { Remesas } from './pages/remesas/remesas';
 import { authGuard } from './guards/auth';
 import { Camiones } from './pages/camiones/camiones';
+import { Conductor } from './pages/conductor/conductor';
 
 export const routes: Routes = [
   {
@@ -29,4 +30,9 @@ export const routes: Routes = [
     component: Camiones,
     canActivate: [authGuard],
   },
+  {
+    path: 'conductor',
+    component: Conductor,
+    canActivate: [authGuard],
+  }
 ];
