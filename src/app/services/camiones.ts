@@ -52,4 +52,12 @@ export class CamionService {
       { headers: this.getHeaders() },
     );
   }
+
+  salirRuta(id: string): Observable<Camion> {
+    return this.http.put<Camion>(
+      `${this.api}/camion/${id}/ubicacion`,
+      {},
+      { headers: this.getHeaders() },
+    );
+  }
 }

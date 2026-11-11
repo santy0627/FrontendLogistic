@@ -206,10 +206,14 @@
                       ></button>
                     </div>
                     <div class="modal-body">
+                      <div class="row">
+                        <span class="fw-bold fs-5">Ten en cuenta:</span>
+                        <p class="fs-5">Las remesas están ordenadas en orden de entrega</p>
+                      </div>
                       <div
                         class="row justify-content-center"
                         *ngIf="camion.remesasAsignadas?.length !== 0"
-                      >
+                        >
                         <div class="col-12 mb-3" *ngFor="let remesa of camion.remesasAsignadas; trackBy: trackById">
                           <div class="card shadow-sm px-4 py-2 h-100">
                             <div class="card-body d-flex flex-column justify-content-between gap-5">
@@ -220,24 +224,40 @@
                               </div>
                               <div class="card-text row">
                                 <div class="col-6">
+                                  <span class="fw-bold">Remitente:</span>
+                                  <p>{{ remesa.remitente }} und.</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Destinatario:</span>
+                                  <p>{{ remesa.destinatario }} und.</p>
+                                </div>
+                                <div class="col-6">
                                   <span class="fw-bold">Cantidad:</span>
                                   <p>{{ remesa.cantidad }} und.</p>
                                 </div>
                                 <div class="col-6">
-                                  <span class="fw-bold">Ciudad:</span>
+                                  <span class="fw-bold">Ciudad destino:</span>
                                   <p>{{ remesa.ciudadDestino }}</p>
                                 </div>
                                 <div class="col-6">
-                                  <span class="fw-bold">Peso total:</span>
-                                  <p>{{ remesa.pesoTotal }} kg</p>
+                                  <span class="fw-bold">Barrio destino:</span>
+                                  <p>{{ remesa.barrioDestino }}</p>
                                 </div>
                                 <div class="col-6">
                                   <span class="fw-bold">Direccion de entrega:</span>
                                   <p>{{ remesa.direccionDestino }}</p>
                                 </div>
                                 <div class="col-6">
+                                  <span class="fw-bold">Peso total:</span>
+                                  <p>{{ remesa.pesoTotal }} kg</p>
+                                </div>
+                                <div class="col-6">
                                   <span class="fw-bold">Tipo de mercancia:</span>
                                   <p>{{ remesa.tipoMercancia }}</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Ciudad de origen:</span>
+                                  <p>{{ remesa.ciudadOrigen }}</p>
                                 </div>
 
                                 <button
@@ -266,24 +286,40 @@
                               </div>
                               <div class="card-text row">
                                 <div class="col-6">
+                                  <span class="fw-bold">Remitente:</span>
+                                  <p>{{ remesa.remitente }} und.</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Destinatario:</span>
+                                  <p>{{ remesa.destinatario }} und.</p>
+                                </div>
+                                <div class="col-6">
                                   <span class="fw-bold">Cantidad:</span>
                                   <p>{{ remesa.cantidad }} und.</p>
                                 </div>
                                 <div class="col-6">
-                                  <span class="fw-bold">Ciudad:</span>
+                                  <span class="fw-bold">Ciudad destino:</span>
                                   <p>{{ remesa.ciudadDestino }}</p>
                                 </div>
                                 <div class="col-6">
-                                  <span class="fw-bold">Peso total:</span>
-                                  <p>{{ remesa.pesoTotal }} kg</p>
+                                  <span class="fw-bold">Barrio destino:</span>
+                                  <p>{{ remesa.barrioDestino }}</p>
                                 </div>
                                 <div class="col-6">
                                   <span class="fw-bold">Direccion de entrega:</span>
                                   <p>{{ remesa.direccionDestino }}</p>
                                 </div>
                                 <div class="col-6">
+                                  <span class="fw-bold">Peso total:</span>
+                                  <p>{{ remesa.pesoTotal }} kg</p>
+                                </div>
+                                <div class="col-6">
                                   <span class="fw-bold">Tipo de mercancia:</span>
                                   <p>{{ remesa.tipoMercancia }}</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Ciudad de origen:</span>
+                                  <p>{{ remesa.ciudadOrigen }}</p>
                                 </div>
 
                                 <button
@@ -399,6 +435,10 @@
                     ></button>
                   </div>
                   <div class="modal-body">
+                      <div class="row">
+                        <span class="fw-bold fs-5">Ten en cuenta:</span>
+                        <p class="fs-5">Las remesas están ordenadas en orden de entrega</p>
+                      </div>
                     <div class="row justify-content-center">
                       <div class="col-12 mb-3" *ngFor="let remesa of camion.remesasAsignadas; trackBy: trackById">
                         <div class="card shadow-sm px-4 py-2 h-100">
@@ -409,27 +449,43 @@
                               </h4>
                             </div>
 
-                            <div class="card-text row">
-                              <div class="col-6">
-                                <span class="fw-bold">Cantidad:</span>
-                                <p>{{ remesa.cantidad }} und.</p>
-                              </div>
-                              <div class="col-6">
-                                <span class="fw-bold">Ciudad:</span>
-                                <p>{{ remesa.ciudadDestino }}</p>
-                              </div>
-                              <div class="col-6">
-                                <span class="fw-bold">Peso total:</span>
-                                <p>{{ remesa.pesoTotal }} kg</p>
-                              </div>
-                              <div class="col-6">
-                                <span class="fw-bold">Direccion de entrega:</span>
-                                <p>{{ remesa.direccionDestino }}</p>
-                              </div>
-                              <div class="col-6">
-                                <span class="fw-bold">Tipo de mercancia:</span>
-                                <p>{{ remesa.tipoMercancia }}</p>
-                              </div>
+                              <div class="card-text row">
+                                <div class="col-6">
+                                  <span class="fw-bold">Remitente:</span>
+                                  <p>{{ remesa.remitente }} und.</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Destinatario:</span>
+                                  <p>{{ remesa.destinatario }} und.</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Cantidad:</span>
+                                  <p>{{ remesa.cantidad }} und.</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Ciudad destino:</span>
+                                  <p>{{ remesa.ciudadDestino }}</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Barrio destino:</span>
+                                  <p>{{ remesa.barrioDestino }}</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Direccion de entrega:</span>
+                                  <p>{{ remesa.direccionDestino }}</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Peso total:</span>
+                                  <p>{{ remesa.pesoTotal }} kg</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Tipo de mercancia:</span>
+                                  <p>{{ remesa.tipoMercancia }}</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Ciudad de origen:</span>
+                                  <p>{{ remesa.ciudadOrigen }}</p>
+                                </div>
                             </div>
                           </div>
                         </div>
@@ -449,11 +505,27 @@
                               </div>
                               <div class="card-text row">
                                 <div class="col-6">
+                                  <span class="fw-bold">Remitente:</span>
+                                  <p>{{ remesa.remitente }} und.</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Destinatario:</span>
+                                  <p>{{ remesa.destinatario }} und.</p>
+                                </div>
+                                <div class="col-6">
                                   <span class="fw-bold">Cantidad:</span>
                                   <p>{{ remesa.cantidad }} und.</p>
                                 </div>
                                 <div class="col-6">
-                                  <span class="fw-bold">Ciudad:</span>
+                                  <span class="fw-bold">Ciudad destino:</span>
+                                  <p>{{ remesa.ciudadDestino }}</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Barrio destino:</span>
+                                  <p>{{ remesa.barrioDestino }}</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Direccion de entrega:</span>
                                   <p>{{ remesa.direccionDestino }}</p>
                                 </div>
                                 <div class="col-6">
@@ -461,12 +533,12 @@
                                   <p>{{ remesa.pesoTotal }} kg</p>
                                 </div>
                                 <div class="col-6">
-                                  <span class="fw-bold">Direccion de entrega:</span>
-                                  <p>{{ remesa.direccionDestino }}</p>
-                                </div>
-                                <div class="col-6">
                                   <span class="fw-bold">Tipo de mercancia:</span>
                                   <p>{{ remesa.tipoMercancia }}</p>
+                                </div>
+                                <div class="col-6">
+                                  <span class="fw-bold">Ciudad de origen:</span>
+                                  <p>{{ remesa.ciudadOrigen }}</p>
                                 </div>
 
                                 <button

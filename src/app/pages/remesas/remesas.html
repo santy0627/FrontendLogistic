@@ -220,6 +220,14 @@
 
             <div class="card-text row">
               <div class="col-6">
+                <span class="fw-bold">Remitente:</span>
+                <p>{{ remesa.remitente }} und.</p>
+              </div>
+              <div class="col-6">
+                <span class="fw-bold">Destinatario:</span>
+                <p>{{ remesa.destinatario }} und.</p>
+              </div>
+              <div class="col-6">
                 <span class="fw-bold">Cantidad:</span>
                 <p>{{ remesa.cantidad }} und.</p>
               </div>
@@ -228,16 +236,24 @@
                 <p>{{ remesa.ciudadDestino }}</p>
               </div>
               <div class="col-6">
-                <span class="fw-bold">Peso total:</span>
-                <p>{{ remesa.pesoTotal }} kg</p>
+                <span class="fw-bold">Barrio de destino:</span>
+                <p>{{ remesa.barrioDestino }}</p>
               </div>
               <div class="col-6">
                 <span class="fw-bold">Direccion de destino:</span>
                 <p>{{ remesa.direccionDestino }}</p>
               </div>
               <div class="col-6">
+                <span class="fw-bold">Peso total:</span>
+                <p>{{ remesa.pesoTotal }} kg</p>
+              </div>
+              <div class="col-6">
                 <span class="fw-bold">Tipo de mercancia:</span>
                 <p>{{ remesa.tipoMercancia }}</p>
+              </div>
+              <div class="col-6">
+                <span class="fw-bold">Ciudad de origen:</span>
+                <p>{{ remesa.ciudadOrigen }}</p>
               </div>
             </div>
 
